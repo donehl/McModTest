@@ -1,27 +1,41 @@
-package com.donehl.mc.moreexp.items;
+package com.donehl.mc.moreexp.item;
 
+import com.donehl.mc.moreexp.item.wrapper.ItemInterface;
+import com.donehl.mc.moreexp.item.wrapper.ItemWrapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Exp gem
  */
-public class ExpGemItem extends ItemWrapper {
-    public ExpGemItem() {
-        super("expGem");
+public class ItemExpGem extends Item implements ItemInterface<ItemExpGem> {
+    public ItemExpGem() {
         setMaxStackSize(64);
         setCreativeTab(CreativeTabs.tabMisc);
+    }
+
+    @Override
+    public String getName() {
+        return "expGem";
+    }
+
+    @Override
+    public void preInit() {
+
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public ItemExpGem getItem() {
+        return this;
     }
 
     /**
@@ -52,7 +66,7 @@ public class ExpGemItem extends ItemWrapper {
     }
 
     /**
-     * returns the action that specifies what animation to play when the items is being used
+     * returns the action that specifies what animation to play when the item is being used
      */
     public EnumAction getItemUseAction(ItemStack stack)
     {

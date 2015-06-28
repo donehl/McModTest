@@ -1,50 +1,47 @@
-package com.donehl.mc.moreexp.items;
+package com.donehl.mc.moreexp.item.wrapper;
 
 import com.donehl.mc.moreexp.MoreExpMod;
+import com.donehl.mc.moreexp.item.ExpItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-
 /**
  * Wrapper for item to make creating item more convenience.
  */
-public abstract class ItemWrapper extends Item {
+public class ItemWrapper<T extends Item & ItemInterface<T>> {
 
-    private String name;
+    private T item;
 
-    protected ItemWrapper(String name) {
-        this.name = name;
+    public ItemWrapper(T item) {
+        this.item = item;
+    }
 
-        GameRegistry.registerItem(this, name);
-        setUnlocalizedName(name);
+    public void preInit(FMLPreInitializationEvent event) {
+        GameRegistry.registerItem(item, item.getName());
+        item.setUnlocalizedName(item.getName());
+        item.preInit();
     }
 
     public void init(FMLInitializationEvent event) {
         if (event.getSide() == Side.CLIENT) {
             RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-            renderItem.getItemModelMesher().register(getInstance(), 0,
+            renderItem.getItemModelMesher().register(getItem(), 0,
                 new ModelResourceLocation(MoreExpMod.MODID + ":" + getName(), "inventory"));
         }
-        this.init();
+        item.init();
     }
 
-    protected void init() {}
-
-    public ItemWrapper getInstance() {
-        return ExpItems.getItem(name);
+    public T getItem() {
+        return item;
     }
 
     public String getName() {
-        return name;
+        return item.getName();
     }
 }
